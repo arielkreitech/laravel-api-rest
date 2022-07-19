@@ -65,10 +65,10 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'phone' => 555555,
-                'id_card' => 'K278978',
-                'date_of_birth' => now(),
-                'city_code' => 82100,
+                'phone' => !empty($request->phone) ? $request->phone : null,
+                'id_card' => $request->id_card,
+                'date_of_birth' => $request->date_of_birth,
+                'city_code' => $request->city_code,
             ];
             $user = $this->repository->create($data);
             return response()->json([
