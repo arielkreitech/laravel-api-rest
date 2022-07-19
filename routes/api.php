@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 
 /*
@@ -34,3 +35,13 @@ Route::group([
         Route::get('logout', [AuthController::class, 'logout']);
     });
 });
+
+Route::group([
+    'middleware' => 'auth:sanctum'
+  ], function() {
+
+    //Routes CRUD User
+    Route::apiResource('users', UserController::class);
+    Route::get('user_by_email', [UserController::class, 'getUserByEmail']);
+
+  });
