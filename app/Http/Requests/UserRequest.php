@@ -30,6 +30,7 @@ class UserRequest extends FormRequest
             'id_card' => 'required|string|max:11',
             'date_of_birth' => 'required|date',
             'city_code' => 'required|integer',
+            'phone' => 'integer',
         ];
     }
 }
