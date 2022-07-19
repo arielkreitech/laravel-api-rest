@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UserRequest;
 use App\Contracts\IUserRepository;
 
 
@@ -30,7 +30,7 @@ class UserController extends Controller
 
     /**
      * Returns user data by email
-     * 
+     *
      * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -55,16 +55,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\RegisterRequest  $request
+     * @param  App\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RegisterRequest $request)
+    public function store(UserRequest $request)
     {
         try {
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'phone' => 555555,
+                'id_card' => 'K278978',
+                'date_of_birth' => now(),
+                'city_code' => 82100,
             ];
             $user = $this->repository->create($data);
             return response()->json([
