@@ -19,6 +19,10 @@ class UsersTableSeeder extends Seeder
             'email' => "admin@test.cu",
             'email_verified_at' => now(),
             'password' => bcrypt('123456A*'),
+            'phone' => 555555,
+            'id_card' => 'K278978',
+            'date_of_birth' => now(),
+            'city_code' => 82100,
             'is_admin' => 1
 ]);
     }
