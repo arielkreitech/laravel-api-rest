@@ -78,8 +78,10 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Not login, something went wrong',
-                'th' => $th
+                'error' => [
+                    'th' => $th,
+                    'message' => 'something_went_wrong'
+                ]
             ], 400);
         }
 
