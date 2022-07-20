@@ -115,13 +115,21 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'id_card' => 'required|string|max:11',
+            'date_of_birth' => 'required|date',
+            'city_code' => 'required|integer',
+            'phone' => 'integer',
         ]);
 
         try {
             $data = [
                 'name' => $request->name,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'phone' => !empty($request->phone) ? $request->phone : null,
+                'id_card' => $request->id_card,
+                'date_of_birth' => $request->date_of_birth,
+                'city_code' => $request->city_code,
             ];
 
             $this->repository->update($id, $data);
