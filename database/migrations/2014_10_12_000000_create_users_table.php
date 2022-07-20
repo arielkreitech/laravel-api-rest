@@ -20,9 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('phone')->nullable();
-            $table->string('id_card');
-            $table->timestamp('date_of_birth');
-            $table->integer('city_code');
+            $table->string('id_card')->default('test');
+            $table->timestamp('date_of_birth')->default(now());
+            $table->integer('city_code')->default(0);
             $table->rememberToken();
             $table->boolean('is_admin')->default(0);
             $table->timestamps();
