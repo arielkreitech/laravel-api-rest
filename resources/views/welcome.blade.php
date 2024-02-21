@@ -52,7 +52,7 @@
 
                             <div class="ml-10">
                                 <div class="mt-2 text-gray-60 dark:text-gray-400 text-sm">
-                                    This is an <strong>API REST</strong> for the <a href="https://taxo.co/" target="_blank" style = "font-weight: bolder;">TAXO</a> Test of
+                                    This is an <strong>API REST</strong> Test of
                                     <a href="https://www.linkedin.com/in/ing-arledoimejr/" target="_blank" style = "font-weight: bolder;">@ArleDoimeJr</a>
                                 </div>
                             </div>
