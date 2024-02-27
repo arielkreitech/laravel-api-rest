@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Contracts\IUserRepository;
+use App\Http\Requests\UserEmailRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Services\Contracts\UserServiceInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class UserController extends Controller
 {
-    protected $repository;
+    protected $service;
 
-    public function __construct(IUserRepository $repository){
-        $this->repository = $repository;
+    public function __construct(UserServiceInterface $service){
+        $this->service = $service;
     }
 
     /**
@@ -24,38 +27,33 @@ class UserController extends Controller
     public function index()
     {
         return response()->json([
-            'users' => $this->repository->all()
+            'users' => $this->service->getAllUsers()
         ]);
     }
 
     /**
      * Returns user data by email
      *
-     * @param  Request  $request
+     * @param  UserEmailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function getUserByEmail(Request $request){
+    public function getUserByEmail(UserEmailRequest $request){
 
-        $request->validate([
-            'email' => 'required'
-        ]);
+        $user = $this->service->getUserByWhere('email', $request->email)->first();
 
-        $user = $this->repository->findBy('email', $request->email)->first();
-        if ($user) {
-            return response()->json([
-                'user' => $user
-            ]);
+        if (!$user) {
+            throw new ModelNotFoundException('User not found');
         }
 
         return response()->json([
-            'message' => 'User not found'
-        ], 404);
+            'user' => $user
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\UserRequest  $request
+     * @param  UserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -70,7 +68,7 @@ class UserController extends Controller
                 'date_of_birth' => $request->date_of_birth,
                 'city_code' => $request->city_code,
             ];
-            $user = $this->repository->create($data);
+            $user = $this->service->createUser($data);
             return response()->json([
                 'message' => 'Successfully created user!',
                 'user' => $user
@@ -92,35 +90,26 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = $this->repository->find($id);
-        if ($user) {
-            return response()->json([
-                'user' => $user
-            ]);
+        $user = $this->service->getUserById($id);
+
+        if (!$user) {
+            throw new ModelNotFoundException('User not found');
         }
 
         return response()->json([
-                'message' => 'User not found'
-            ], 404);
+            'user' => $user
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UserUpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'password' => 'required|string',
-            'id_card' => 'required|string|max:11',
-            'date_of_birth' => 'required|date',
-            'city_code' => 'required|integer',
-            'phone' => 'integer',
-        ]);
 
         try {
             $data = [
@@ -132,7 +121,7 @@ class UserController extends Controller
                 'city_code' => $request->city_code,
             ];
 
-            $this->repository->update($id, $data);
+            $this->service->updateUser($id, $data);
 
             return response()->json([
                 'message' => 'Successfully updated user!'
@@ -155,7 +144,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $this->repository->destroy($id);
+            $this->service->deleteUser($id);
 
             return response()->json([
                 'message' => 'Successfully Deleted'

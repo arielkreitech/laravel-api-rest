@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
-use App\Contracts\IUserRepository;
+use App\Services\Contracts\UserServiceInterface;
 
 class AuthController extends Controller
 {
-    protected $repository;
+    protected $service;
 
-    public function __construct(IUserRepository $repository){
-        $this->repository = $repository;
+    public function __construct(UserServiceInterface $service){
+        $this->service = $service;
     }
 
     /**
@@ -34,7 +34,7 @@ class AuthController extends Controller
                 'password' => bcrypt($request->password)
                 ];
 
-            $user = $this->repository->create($data);
+            $user = $this->service->createUser($data);
 
             return response()->json([
                 'message' => 'Successfully created user!',
@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
 
         try {
-            $user = $this->repository->findBy('email', $request->email);
+            $user = $this->service->getUserByWhere('email', $request->email);
 
             if (! $user || ! Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
