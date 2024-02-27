@@ -51,8 +51,12 @@
                         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
 
                             <div class="ml-10">
-                                <div class="mt-2 text-gray-60 dark:text-gray-400 text-sm">
-                                    This is an <strong>API REST</strong> Test of
+                                <div class="mt-2 text-gray-60 dark:text-gray-400 text-sm text-center">
+                                    This is a basic <strong>API REST</strong>
+                                    <br>
+                                    with <strong>User CRUD</strong>
+                                    <br>
+                                    Test of
                                     <a href="https://www.linkedin.com/in/ing-arledoimejr/" target="_blank" style = "font-weight: bolder;">@ArleDoimeJr</a>
                                 </div>
                             </div>
@@ -74,12 +78,14 @@
                     </div>
 
                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                        - Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
                 </div>
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between" style="text-align: center">
+                <div class="flex justify-center mt-4 sm:items-center">
                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-
+                        <div class="text-center text-sm text-gray-500">
+                            &copy; {{ date('Y') }} <a href="https://www.linkedin.com/in/ing-arledoimejr/" target="_blank" style = "font-weight: bolder;">DoimeDev</a>. All rights reserved.
+                        </div>
                     </div>
                 </div>
             </div>
