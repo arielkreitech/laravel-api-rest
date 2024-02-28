@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
 
         try {
-            $user = $this->service->getUserByWhere('email', $request->email);
+            $user = $this->service->getUserByWhere('email', $request->email)->first();
 
             if (! $user || ! Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
