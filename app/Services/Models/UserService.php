@@ -61,7 +61,7 @@ class UserService implements UserServiceInterface
 
     public function deleteUser($id)
     {
-        return $this->factoryRepository->getUserRepository()->destroy($id);
+        return $this->factoryRepository->getUserRepository()->delete($id);
     }
 
     public function getUserByWithRelationships($relations)
